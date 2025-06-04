@@ -6,7 +6,7 @@ export class Github {
     private PAT: string;
 
     constructor() {
-        this.PAT = process.env.GH_PERSONAL_ACCESS_TOKEN || '';
+        this.PAT = process.env.GH_PERSONAL_ACCESS_TOKEN ?? '';
     }
 
     clone(repo: string): void {

@@ -29,7 +29,7 @@ export default defineConfig([
         rules: {
             ...tsPlugin.configs.recommended.rules,
             // ...tsPlugin.configs['strict-type-checked'].rules,
-            // ...tsPlugin.configs['stylistic-type-checked'].rules,
+            ...tsPlugin.configs['stylistic-type-checked'].rules,
             '@typescript-eslint/no-misused-promises': 'error',
             '@typescript-eslint/no-floating-promises': 'error',
             'no-console': 'error',
