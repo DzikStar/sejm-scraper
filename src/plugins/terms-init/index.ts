@@ -21,11 +21,14 @@ export default class TermsScraper implements IPlugin {
     public readonly name: string = 'Terms Scraper';
     public readonly description: string = 'Scrapes Parliment Terms data from API.';
 
+    constructor(private state: { currentTerm: number }) {}
+
     async run() {
         try {
             logger.info('Attempting to access /sejm/term endpoint');
             const response = await fetch('https://api.sejm.gov.pl/sejm/term');
             const terms: Term[] = await response.json();
+            this.state.currentTerm = terms.length;
             logger.debug({ 'Terms Count': terms.length }, 'Successfully fetched /sejm/term endpoint');
 
             for (const term of terms) {

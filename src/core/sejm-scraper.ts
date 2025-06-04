@@ -7,11 +7,12 @@ import { IPlugin } from 'plugins/base-plugin.js';
 export default class SejmScraper {
     private plugins: IPlugin[] = [];
     private github = new Github();
+    state = { currentTerm: 0 };
 
     public async run() {
         logger.info('Initializing plugins');
         try {
-            this.registerPlugin(new TermsInit());
+            this.registerPlugin(new TermsInit(this.state));
         } catch (error) {
             logger.error({ err: error }, 'Error while initializing plugins');
         }
