@@ -1,6 +1,7 @@
 {
   "name": "sejm-scraper",
   "version": "0.0.0-dev",
+  "type":"module",
   "main": "index.js",
   "scripts": {
     "run": "tsx src/index.ts"

@@ -5,7 +5,8 @@ logger.info('Service task starting...');
 
 try {
     const service = new SejmScraper();
-    service.run();
+    await service.run();
+
     logger.info('Service task completed successfully');
 } catch (error) {
     logger.error({ err: error }, 'Failed to run service task');
