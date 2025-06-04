@@ -4,7 +4,7 @@
   "type":"module",
   "main": "index.js",
   "scripts": {
-    "run": "tsx src/index.ts"
+    "run": "tsx --env-file-if-exists=.env src/index.ts"
   },
   "repository": {
     "type": "git",

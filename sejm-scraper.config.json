@@ -1,10 +1,14 @@
 {
+    "deploy_on_github": true,
     "git": {
         "author": "DzikStar",
-        "github_actions": "41898282+github-actions[bot]@users.noreply.github.com",
         "repository": {
             "scraper": "sejm-scraper",
             "output": "sejm.gov.pl-mirror"
+        },
+        "actions": {
+            "username": "GitHub Actions",
+            "email": "41898282+github-actions[bot]@users.noreply.github.com"
         }
     }
 }

@@ -10,7 +10,13 @@ export class Github {
     }
 
     clone(repo: string): void {
-        logger.info({ repo }, 'Cloning GitHub repository');
+        logger.info(
+            {
+                Repository: repo,
+                Author: config.git.author,
+            },
+            'Cloning GitHub repository',
+        );
 
         try {
             execSync(`git clone --depth 1 https://github.com/${config.git.author}/${repo}.git`);
@@ -32,12 +38,12 @@ export class Github {
 
         try {
             logger.debug({ path }, 'Setting git configuration');
-            execSync(`git config user.name "${config.github.writer_username}"`, { cwd: path });
-            execSync(`git config user.email "${config.github.writer_usermail}"`, { cwd: path });
+            execSync(`git config user.name "${config.git.actions.username}"`, { cwd: path });
+            execSync(`git config user.email "${config.git.actions.email}"`, { cwd: path });
 
             const maskedPAT = this.PAT ? `${this.PAT.substring(0, 4)}...${this.PAT.substring(this.PAT.length - 4)}` : 'not-provided';
             logger.debug({ path, token: maskedPAT }, 'Setting git remote URL with access token');
-            execSync(`git remote set-url origin https://x-access-token:${this.PAT}@github.com/${config.github.repos_owner}/${config.github.output_repo}.git`, { cwd: path });
+            execSync(`git remote set-url origin https://x-access-token:${this.PAT}@github.com/${config.git.author}/${config.git.repository.output}.git`, { cwd: path });
 
             // Check for changes
             const hasChanges = !!execSync('git status --porcelain', { cwd: path, encoding: 'utf-8' }).trim();
