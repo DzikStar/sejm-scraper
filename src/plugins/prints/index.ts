@@ -42,16 +42,16 @@ export default class PrintsScraper implements IPlugin {
             await fs.writeFile(filePath + fileName, JSON.stringify(prints, null, 4));
             logger.info({ filePath, fileName, termNum }, 'Saved prints data of term');
 
-            for (const print of prints) {
-                try {
-                    logger.debug({ printNumber: print.number }, 'Attempting to save print');
-                    await this.savePrint(print);
-                    logger.info({ printNumber: print.number }, 'Print saved');
-                } catch (error) {
-                    logger.error({ print, error }, 'Error occured during print scrape');
-                    continue;
-                }
-            }
+            // for (const print of prints) {
+            //     try {
+            //         logger.debug({ printNumber: print.number }, 'Attempting to save print');
+            //         await this.savePrint(print);
+            //         logger.info({ printNumber: print.number }, 'Print saved');
+            //     } catch (error) {
+            //         logger.error({ print, error }, 'Error occured during print scrape');
+            //         continue;
+            //     }
+            // }
         }
     }
 
