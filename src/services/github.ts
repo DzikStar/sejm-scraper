@@ -58,7 +58,16 @@ export class Github {
             execSync('git add .', { cwd: path });
 
             logger.debug({ path, message }, 'Committing changes');
-            execSync(`git commit -m "${message}"`, { cwd: path });
+            try {
+                execSync(`git commit -m "${message}"`, { cwd: path });
+            } catch (commitError: unknown) {
+                const errorWithStdout = commitError as { stdout?: string | Buffer };
+                if (errorWithStdout.stdout?.toString().includes('nothing to commit')) {
+                    logger.info({ path }, 'No changes to commit, skipping push (2 check)');
+                    return;
+                }
+                throw commitError;
+            }
 
             logger.info({ path }, 'Pushing changes to remote repository');
             execSync('git push origin main', { cwd: path });
