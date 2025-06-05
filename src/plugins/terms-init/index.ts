@@ -28,8 +28,9 @@ export default class TermsScraper implements IPlugin {
             logger.info('Attempting to access /sejm/term endpoint');
             const response = await fetch('https://api.sejm.gov.pl/sejm/term');
             const terms: Term[] = await response.json();
-            this.state.currentTerm = terms.length;
             logger.debug({ 'Terms Count': terms.length }, 'Successfully fetched /sejm/term endpoint');
+
+            this.state.currentTerm = terms.length;
 
             for (const term of terms) {
                 await this.saveTerm(term.num, term);
