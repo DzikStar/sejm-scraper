@@ -3,6 +3,7 @@ import { config } from 'core/config.js';
 import { Github } from 'services/github.js';
 import TermsInit from 'plugins/terms-init/index.js';
 import { IPlugin } from 'plugins/base-plugin.js';
+import * as fs from 'fs/promises';
 
 export default class SejmScraper {
     private plugins: IPlugin[] = [];
@@ -18,6 +19,23 @@ export default class SejmScraper {
         }
 
         await this.github.clone(config.git.repository.output);
+
+        logger.info('Attempting to clear old data from repository');
+        const outputDir = `./${config.git.repository.output}`;
+        try {
+            const entries = await fs.readdir(outputDir, { withFileTypes: true });
+            const termDirs = entries.filter(entry => entry.isDirectory() && entry.name.startsWith('term'));
+            const count = termDirs.length;
+
+            for (let i = 1; i <= count; i++) {
+                const termDir = `${outputDir}/term${i}`;
+                await fs.rm(termDir, { recursive: true, force: true });
+                logger.info({ termDir }, `Removed term directory}`);
+            }
+        } catch (error) {
+            logger.error({ err: error }, 'Failed to clear old data from repository');
+            throw error;
+        }
 
         for (const plugin of this.plugins) {
             try {

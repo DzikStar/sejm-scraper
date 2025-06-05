@@ -10,10 +10,13 @@ export default class PrintsScraper implements IPlugin {
 
     async run() {
         try {
-            logger.info('Attempting to access /sejm/term:num/prints endpoint');
+            logger.info('Attempting to access /sejm/term<num>/prints endpoint');
             const response = await fetch('https://api.sejm.gov.pl/sejm/term');
         } catch (error) {
-            throw logger.error(error, "Couldn't access /sejm/term endpoint or save file");
+            throw logger.error(error, "Couldn't access /sejm/term<num>/prints endpoint");
+        }
+        for (let i = 1; i <= this.state.currentTerm; i++) {
+            //
         }
     }
 }
