@@ -2,6 +2,7 @@ import logger from 'utils/logger.js';
 import { config } from 'core/config.js';
 import { Github } from 'services/github.js';
 import TermsInit from 'plugins/terms-init/index.js';
+import PrintsScraper from 'plugins/prints/index.js';
 import { IPlugin } from 'plugins/base-plugin.js';
 import * as fs from 'fs/promises';
 
@@ -14,6 +15,7 @@ export default class SejmScraper {
         logger.info('Initializing plugins');
         try {
             this.registerPlugin(new TermsInit(this.state));
+            this.registerPlugin(new PrintsScraper(this.state));
         } catch (error) {
             logger.error({ err: error }, 'Error while initializing plugins');
         }
@@ -30,7 +32,7 @@ export default class SejmScraper {
             for (let i = 1; i <= count; i++) {
                 const termDir = `${outputDir}/term${i}`;
                 await fs.rm(termDir, { recursive: true, force: true });
-                logger.info({ termDir }, `Removed term directory}`);
+                logger.info({ termDir }, `Removed term directory`);
             }
         } catch (error) {
             logger.error({ err: error }, 'Failed to clear old data from repository');
